@@ -6,7 +6,7 @@ import image from '../assets/CustomerSurveyrafiki.png'
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Title/>
+      <Title titleText = 'Quizzler'/>
       <View style={styles.bannerContainer}>
         <Image source={image}
         style={styles.banner}

@@ -2,79 +2,123 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 
 const Quiz = ({ navigation }) => {
-
-
-    const shuffleArray = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+  };
 
-    const[questions, setQuestions]= useState();
-    const[ques, setQues] = useState(0);
-    const[options, setOptions] = useState([])
+  const [questions, setQuestions] = useState();
+  const [ques, setQues] = useState(0);
+  const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0);
+  const [loading, setLoading] = useState(false)
 
-    const getQuiz = async()=> {
-        const url='https://opentdb.com/api.php?amount=10&category=23&type=multiple&encode=url3986';
-        const res = await fetch(url);
-        const data = await res.json();
-        setQuestions(data.results);
-        setOptions(generateOptionsAndShuffle(data.results[0]));
+  const getQuiz = async () => {
+    setLoading(true)
+    const url =
+      "https://opentdb.com/api.php?amount=10&category=23&type=multiple&encode=url3986";
+    const res = await fetch(url);
+    const data = await res.json();
+    setQuestions(data.results);
+    setOptions(generateOptionsAndShuffle(data.results[0]));
+    setLoading(false)
+  };
+
+  useEffect(() => {
+    getQuiz();
+  }, []);
+
+  const handleNextPress = () => {
+    setQues(ques + 1);
+    setOptions(generateOptionsAndShuffle(questions[ques + 1]));
+  };
+
+  const generateOptionsAndShuffle = (_question) => {
+    const options = [..._question.incorrect_answers];
+    options.push(_question.correct_answer);
+    shuffleArray(options);
+    return options;
+  };
+
+  const handleSelectedOption = (_option) => {
+    if (_option === questions[ques].correct_answer) {
+      setScore(score+10)
     }
+    if (ques !== 9) {
+      setQues(ques + 1);
+      setOptions(generateOptionsAndShuffle(questions[ques + 1]));
+    }if(ques === 9)
+      handleShowResult()
+  };
 
-    useEffect(() => {
-        getQuiz()
-    },[])
-
-    const handleNextPress = () => {
-        setQues(ques + 1)
-        setOptions(generateOptionsAndShuffle(questions[ques+1]));
-    } 
-
-    const generateOptionsAndShuffle = (_question) => {
-        const options = [..._question.incorrect_answers]
-        options.push(_question.correct_answer);
-        shuffleArray(options)
-        return options;
-    }
+  const handleShowResult = () => {
+    navigation.navigate("Results", {
+      score: score,
+    });
+  };
 
   return (
     <View style={styles.container}>
       {questions && (
-      <View style={styles.parent}>
-      <View style={styles.top}>
-        <Text style={styles.question}>Q. {decodeURIComponent(questions[ques].question)} </Text>
-      </View>
-      <View style={styles.options}>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.option}>{decodeURIComponent(options[0])}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.option}>{decodeURIComponent(options[1])}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.option}>{decodeURIComponent(options[2])}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.option}>{decodeURIComponent(options[3])}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.bottom}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Skip</Text>
-        </TouchableOpacity>
-        {ques !== 9 && 
-        <TouchableOpacity style={styles.button} onPress={handleNextPress}>
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-        }
-        {ques === 9 && 
-        <TouchableOpacity style={styles.button} onPress={() => null}>
-          <Text style={styles.buttonText}>Show Results</Text>
-        </TouchableOpacity>
-        }
-      </View>
+        <View style={styles.parent}>
+          <View style={styles.top}>
+            <Text style={styles.question}>
+              {decodeURIComponent(questions[ques].question)}{" "}
+            </Text>
+          </View>
+          <View style={styles.options}>
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => handleSelectedOption(options[0])}
+            >
+              <Text style={styles.option}>
+                {decodeURIComponent(options[0])}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => handleSelectedOption(options[1])}
+            >
+              <Text style={styles.option}>
+                {decodeURIComponent(options[1])}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => handleSelectedOption(options[2])}
+            >
+              <Text style={styles.option}>
+                {decodeURIComponent(options[2])}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.optionButton}
+              onPress={() => handleSelectedOption(options[3])}
+            >
+              <Text style={styles.option}>
+                {decodeURIComponent(options[3])}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.bottom}>
+            {ques !== 9 && (
+              <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+                <Text style={styles.buttonText}>Skip</Text>
+              </TouchableOpacity>
+            )}
+            {ques === 9 && (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  handleShowResult();
+                }}
+              >
+                <Text style={styles.buttonText}>Show Results</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       )}
     </View>
@@ -99,7 +143,7 @@ const styles = StyleSheet.create({
   bottom: {
     marginBottom: 12,
     paddingVertical: 16,
-    justifyContent: "space-between",
+    justifyContent: "center",
     flexDirection: "row",
   },
   button: {
@@ -115,23 +159,22 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "white",
   },
-  question:{
+  question: {
     fontSize: 28,
   },
-  option:{
+  option: {
     fontSize: 18,
-    fontWeight: '500',
-    color:'white'
+    fontWeight: "500",
+    color: "white",
   },
-  optionButton:{
+  optionButton: {
     paddingVertical: 12,
     marginVertical: 6,
-    backgroundColor: '#ffb703',
+    backgroundColor: "#ffb703",
     paddingHorizontal: 12,
-    borderRadius: 12
+    borderRadius: 12,
   },
-  parent:{
-    height:'100%'
-  }
-
+  parent: {
+    height: "100%",
+  },
 });
