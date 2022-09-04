@@ -1,7 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  Animated
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
-const Quiz = ({ navigation }) => {
+const Quiz = ({ navigation, route }) => {
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -13,17 +20,17 @@ const Quiz = ({ navigation }) => {
   const [ques, setQues] = useState(0);
   const [options, setOptions] = useState([]);
   const [score, setScore] = useState(0);
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const { category, difficulty } = route.params;
 
   const getQuiz = async () => {
-    setLoading(true)
-    const url =
-      "https://opentdb.com/api.php?amount=10&category=23&type=multiple&encode=url3986";
+    setIsLoading(true);
+    const url = `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple&encode=url3986`;
     const res = await fetch(url);
     const data = await res.json();
     setQuestions(data.results);
     setOptions(generateOptionsAndShuffle(data.results[0]));
-    setLoading(false)
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -44,13 +51,13 @@ const Quiz = ({ navigation }) => {
 
   const handleSelectedOption = (_option) => {
     if (_option === questions[ques].correct_answer) {
-      setScore(score+10)
+      setScore(score + 10);
     }
     if (ques !== 9) {
       setQues(ques + 1);
       setOptions(generateOptionsAndShuffle(questions[ques + 1]));
-    }if(ques === 9)
-      handleShowResult()
+    }
+    if (ques === 9) handleShowResult();
   };
 
   const handleShowResult = () => {
@@ -59,67 +66,88 @@ const Quiz = ({ navigation }) => {
     });
   };
 
+
   return (
     <View style={styles.container}>
-      {questions && (
-        <View style={styles.parent}>
-          <View style={styles.top}>
-            <Text style={styles.question}>
-              {decodeURIComponent(questions[ques].question)}{" "}
-            </Text>
-          </View>
-          <View style={styles.options}>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => handleSelectedOption(options[0])}
-            >
-              <Text style={styles.option}>
-                {decodeURIComponent(options[0])}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => handleSelectedOption(options[1])}
-            >
-              <Text style={styles.option}>
-                {decodeURIComponent(options[1])}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => handleSelectedOption(options[2])}
-            >
-              <Text style={styles.option}>
-                {decodeURIComponent(options[2])}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => handleSelectedOption(options[3])}
-            >
-              <Text style={styles.option}>
-                {decodeURIComponent(options[3])}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.bottom}>
-            {ques !== 9 && (
-              <TouchableOpacity style={styles.button} onPress={handleNextPress}>
-                <Text style={styles.buttonText}>Skip</Text>
-              </TouchableOpacity>
-            )}
-            {ques === 9 && (
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  handleShowResult();
-                }}
-              >
-                <Text style={styles.buttonText}>Show Results</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+      {isLoading ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator size="large" color="black" />
         </View>
+      ) : (
+        questions && (
+          <View style={styles.parent}>
+            <View style={styles.top}>
+              <Text style={styles.question}>
+                {decodeURIComponent(questions[ques].question)}{" "}
+              </Text>
+            </View>
+            <View>
+              <Text>{ques + 1}/10</Text>
+            </View>
+            <View style={styles.options}>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={() => handleSelectedOption(options[0])}
+              >
+                <Text style={styles.option}>
+                  {decodeURIComponent(options[0])}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={() => handleSelectedOption(options[1])}
+              >
+                <Text style={styles.option}>
+                  {decodeURIComponent(options[1])}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={() => handleSelectedOption(options[2])}
+              >
+                <Text style={styles.option}>
+                  {decodeURIComponent(options[2])}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={() => handleSelectedOption(options[3])}
+              >
+                <Text style={styles.option}>
+                  {decodeURIComponent(options[3])}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.bottom}>
+              {ques !== 9 && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleNextPress}
+                >
+                  <Text style={styles.buttonText}>Skip</Text>
+                </TouchableOpacity>
+              )}
+              {ques === 9 && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    handleShowResult();
+                  }}
+                >
+                  <Text style={styles.buttonText}>Show Results</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        )
       )}
     </View>
   );
