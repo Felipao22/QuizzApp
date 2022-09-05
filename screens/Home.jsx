@@ -1,14 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, SafeAreaView } from 'react-native'
 import React from 'react'
 import Title from '../components/Title'
-import image from '../assets/CustomerSurveyrafiki.png'
 
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Title titleText = 'Quizzler'/>
+      <Title titleText = 'Quiz App'/>
       <View style={styles.bannerContainer}>
-        <Image source={image}
+        <Image source={{uri:'https://cdni.iconscout.com/illustration/premium/thumb/quiz-show-3864158-3207897.png'}}
         style={styles.banner}
         resizeMode='contain'
         />
@@ -35,11 +34,11 @@ const styles = StyleSheet.create({
     container:{
         paddingTop: 40,
         paddingHorizontal: 20,
-        height:'100%'
+        height:'100%',
     },
     button:{
         width: '100%',
-        backgroundColor: '#219ebc',
+        backgroundColor: '#8C7390',
         padding: 16,
         borderRadius: 16,
         alignItems:'center',

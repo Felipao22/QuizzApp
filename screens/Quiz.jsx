@@ -90,7 +90,7 @@ const Quiz = ({ navigation, route }) => {
               </Text>
             </View>
             <View>
-              <Text>{ques + 1}/10</Text>
+              <Text style={styles.ques}>{ques + 1}/10</Text>
             </View>
             <View style={styles.options}>
               <TouchableOpacity
@@ -157,12 +157,12 @@ export default Quiz;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 60,
     paddingHorizontal: 20,
     height: "100%",
   },
   top: {
-    marginVertical: 16,
+    marginVertical: 30,
   },
   options: {
     marginVertical: 16,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   button: {
-    backgroundColor: "#219ebc",
+    backgroundColor: "#8C7390",
     padding: 12,
     paddingHorizontal: 16,
     borderRadius: 16,
@@ -198,11 +198,16 @@ const styles = StyleSheet.create({
   optionButton: {
     paddingVertical: 12,
     marginVertical: 6,
-    backgroundColor: "#ffb703",
+    backgroundColor: "#2E3A45",
     paddingHorizontal: 12,
     borderRadius: 12,
   },
   parent: {
     height: "100%",
   },
+  ques: {
+    color:'#8C7390',
+    fontSize:20,
+    fontWeight:'500'
+  }
 });

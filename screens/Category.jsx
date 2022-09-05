@@ -13,31 +13,49 @@ const Category = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Title titleText="Category" />
+      <Title titleText="Choose category" />
       <View style={styles.bannerContainer}>
         <TouchableOpacity
           onPress={() => handleCategory("9")}
           style={styles.button}
         >
           <MaterialIcons name='menu-book' size={80} color='white' />
+          <Text>General</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleCategory("11")}
           style={styles.button}
         >
           <MaterialIcons name='local-movies' size={80} color='white' />
+          <Text>Movies</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleCategory("10")}
           style={styles.button}
         >
           <MaterialIcons name='school' size={80} color='white' />
+          <Text>History</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleCategory("21")}
           style={styles.button}
         >
           <MaterialIcons name='sports' size={80} color='white' />
+          <Text>Sports</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleCategory("22")}
+          style={styles.button}
+        >
+          <MaterialIcons name='public' size={80} color='white' />
+          <Text>Geography</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleCategory("27")}
+          style={styles.button}
+        >
+          <MaterialIcons name='pets' size={80} color='white' />
+          <Text>Animals</Text>
         </TouchableOpacity>
         {/* <Image source={{uri:'https://cdni.iconscout.com/illustration/premium/thumb/creative-brainstorming-2042865-1729023.png'}}
       style={styles.banner}
@@ -56,9 +74,12 @@ const styles = StyleSheet.create({
     width: 300,
   },
   bannerContainer: {
-    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: "15%",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     alignItems: "center",
-    flex: 1,
+    marginHorizontal: 15,
   },
   container: {
     paddingTop: 40,
@@ -67,7 +88,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "40%",
-    backgroundColor: "#219ebc",
+    backgroundColor: "#8C7390",
     padding: 16,
     borderRadius: 16,
     alignItems: "center",
