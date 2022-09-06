@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    backgroundColor: "#8C7390",
+    backgroundColor: "#454851",
     padding: 16,
     borderRadius: 16,
     alignItems: "center",
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "800",
     alignSelf: "center",
-    color:'#8C7390'
+    color:'#454851'
   },
   buttonContainer: {
     flex: 1,

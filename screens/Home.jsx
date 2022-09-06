@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     banner:{
         height: 300,
         width:300,
+        borderRadius:20,
     },
     bannerContainer:{
     justifyContent:'center',
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     },
     button:{
         width: '100%',
-        backgroundColor: '#8C7390',
+        backgroundColor: '#454851',
         padding: 16,
         borderRadius: 16,
         alignItems:'center',

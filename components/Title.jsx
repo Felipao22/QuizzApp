@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 36,
         fontWeight: '600',
+        color:'#8C7390'
     },
     container:{
         paddingVertical: 16,

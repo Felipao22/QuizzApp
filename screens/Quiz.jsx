@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
   },
   question: {
     fontSize: 28,
+    color:'#454851'
   },
   option: {
     fontSize: 18,
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
   optionButton: {
     paddingVertical: 12,
     marginVertical: 6,
-    backgroundColor: "#2E3A45",
+    backgroundColor: "#575B9A",
     paddingHorizontal: 12,
     borderRadius: 12,
   },
