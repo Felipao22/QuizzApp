@@ -10,7 +10,7 @@ const Results = ({ navigation, route }) => {
     <View style={styles.container}>
       {score == 100 ? (
         <View style={styles.resultCont}>
-          <Title titleText="Perfect" />
+          <Title titleText="Perfect!" />
           <View style={styles.bannerContainer}>
             <Image
               source={{
@@ -20,12 +20,12 @@ const Results = ({ navigation, route }) => {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.scoreText}>Your Score is: {score}%</Text>
+          <Text style={styles.scoreText}>Your Score is: {score}</Text>
         </View>
       ) : score > 80 ? (
         <View style={styles.resultCont}>
-          <Title titleText="Excellent" />
-            <Text style={styles.scoreText}>Your Score is: {score}%</Text>
+          <Title titleText="Excellent!" />
+            <Text style={styles.scoreText}>Your Score is: {score}</Text>
           <View style={styles.bannerContainer}>
             <Image
               source={{
@@ -38,8 +38,8 @@ const Results = ({ navigation, route }) => {
         </View>
       ) : score > 50 ? (
         <View style={styles.resultCont}>
-          <Title titleText="Good" />
-            <Text style={styles.scoreText}>Your Score is: {score}%</Text>
+          <Title titleText="Good!" />
+            <Text style={styles.scoreText}>Your Score is: {score}</Text>
           <View style={styles.bannerContainer}>
             <Image
               source={{
@@ -52,8 +52,8 @@ const Results = ({ navigation, route }) => {
         </View>
       ) : score === 0 ? (
         <View style={styles.resultCont}>
-          <Title titleText="Kepp trying!" />
-            <Text style={styles.scoreText}>Your Score is: {score}%</Text>
+          <Title titleText="Keep trying!" />
+            <Text style={styles.scoreText}>Your Score is: {score}</Text>
           <View style={styles.bannerContainer}>
             <Image
               source={{
@@ -66,8 +66,8 @@ const Results = ({ navigation, route }) => {
         </View>
       ) : (
         <View style={styles.resultCont}>
-          <Title titleText="Not so good" />
-          <Text style={styles.scoreText}>Your Score is: {score}%</Text>
+          <Title titleText="Not so good!" />
+          <Text style={styles.scoreText}>Your Score is: {score}</Text>
           <View style={styles.bannerContainer}>
             <Image
               source={{
